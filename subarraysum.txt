@@ -1,0 +1,78 @@
+q: Given an array of integers A and an integer B.
+Find the total number of subarrays having sum equals to B.
+example: A = [1, 2, 3, -2, 5, 1, -1, 2, 3, 4, -5, 1] B = 5
+	and = 6
+	
+soln: 
+
+import java.util.HashMap;
+
+class Solution {
+
+public int solve(int[] A, int B) {
+int n = A.length;
+HashMap<Integer,Integer> prefixSumFreq = new HashMap<>();
+
+// IMPORTANT: let say B = cumulative sum till i-th index. 
+// so according to the algo sum-i - B = 0, therefore 0 is added
+prefixSumFreq.put(0,1);
+int sum = 0;
+int count = 0;
+for(int a : A) {
+sum += a; // calculate the prefix sum
+if (prefixSumFreq.containsKey(sum-B)) {
+// the number of time the value ((cumulative sum till i) - B) exists, i.e. its frequency, in the map
+// we will get that many subarrays with sum B
+count += prefixSumFreq.get(sum-B);
+}
+
+// increase the frequency of the sum
+prefixSumFreq.put(sum, prefixSumFreq.getOrDefault(0)+1);
+}
+}
+return count;
+}
+
+==========================================================================================
+
+q2: Given an array of integers A, find and return whether the given array contains a non-empty subarray with a sum equal to 0.
+If the given array contains a sub-array with sum zero return 1, else return 0.
+
+constraints:
+1 <= |A| <= 100000
+-10^9 <= A[i] <= 10^9
+
+example: A = [1,-1]
+	result = 1
+
+soln: 
+
+class Solution {
+
+
+// explain: idea is if 
+// a. i found atleast two prefix sums sum[i] and sum[j] where i < j and sum[i] = sum[j]
+// b. i found a prefix sum sum[i] = 0
+// i use hash set to store the prefix sums. now i calculate the prefix sum. if the sum 0 t or if the exists in the set then return 1 immediately. otherwise add the sum in the set.
+// otherwise return 0;
+public int solve(int[] A) {
+
+// i am taking long set and sum as long due the constraints. 
+// for example there are 10^5 elements and all are 10^9 so sum will be 10^5 * 10^9 = 10^14
+// this is outside the range of integer. so, i am taking long
+HashSet<Long> set = new HashSet<>();
+long sum = 0;
+for (int a : A) {
+sum += a;
+if (sum == 0) {
+return 1;
+}
+if (set.contains(sum)) {
+return 1;
+}
+set.add(sum);
+}
+return 0;
+}
+
+}

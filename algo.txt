@@ -1,0 +1,51 @@
+Seive Algo
+
+problem1: pascal triangle
+row col are 1 based
+soln1: n*n 2d array
+in m-th row col 0 and m-1 = 1
+in 1 to m-2 th cols 
+x th col value A[m][x] = A[m-2][x] + A[m-2][x-1]
+
+soln2: 
+A[m][x = 0 to n] = (m)C(x)
+mCx+1 = mCx * ((x-m)/(x-1))
+
+problem 2: subarray with given sum
+soln:
+step1: calculate prefix sum
+step2: use two pointers and iterate from 0 to n => i is lower and j is higher index;
+step 3: calculate array sum from i to j using prefix sum. 
+sum > target => reduce the array size by forwarding i i.e. i++
+sum < target => increase the array size by forwarding j i.e. j++
+sum = target => found
+
+problem 3: LRU Cache
+Important: both get and set bring the accessed element at the front
+it has a certain size constraint. when it is fulfilled the oldest i.e. lest recent accessed node is removed. otherwise new node is appended at tail.
+
+problem 4: middle element of a linked list
+use slow and fast point. where slow move one step and fast moves two steps. 
+case 1: if list is odd length then mid is next of slow
+case 2: if list is event length then mid is slow
+
+problem 5: palindrome list
+reverse the list and check the list stop on first unequal value
+
+
+problem 6: stair case problem: backtracking
+go from highest value to lowest. means if n stairs to climb then go from n to 0.
+go for both numbers of step count but stop exploring if subsequent turns invalid. and don't forget to reset
+
+problem 7: vertical traversal of tree
+set root node vertical axis to 0
+towards left axis-1 towards right axis+1
+use map for axis -> node value array
+but the problem is the values are in down to top order.
+so for top to down order we will use queue and just like level order enqueue the nodes with its axis.
+
+problem 8: print all permutations
+use visited boolean array. recurse from 0 to length-1. on each recursion iteration the complete array. for element not visited mark visited, add the element to answer so far, call the recursive function for index+1, finally remove the element from answer so far and unmark again.
+
+problem 9: print all subsets
+use backtrack. for each index go like no then yes. yes means add the element at index into the answer so far then go for index+1. if index == length then print. remove the element answer so far. why no before yes? it will ensure smaller size subset first.
