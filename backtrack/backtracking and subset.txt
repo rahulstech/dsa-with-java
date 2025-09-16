@@ -1,0 +1,64 @@
+backtracking and subset problem
+approach: exclude-include
+no. of subset: 2^N where N is the size of input. therefore no of max recursion is also 2^N
+observation: 
+- requires subset/combination not permutations. i.e. order does not matters
+- duplicate result is not allowed even though the input contains duplicate. for example: for input array [1,2,2] only one subset [2] is allowed. though for 1th 2 and 2th 2 there exists two [2] subset.
+
+Note: it is said max recursion because without pruning (applying constrains to exit recursion earlier) there will be 2^N recursion. but problem like sub set sub = K with pruning target = current sum exits recursion earlier therefore no. of recursion decreases from 2^N.
+
+how it is 2^N: for each element we have 2 options either include or exclude. so for N element we have 2*2*2*...2 = 2^N
+
+Note: sorted array is not required in this case where include-exclude is involved. 
+
+// sub set sum = k with larger N like 20-40
+// approach is meet-in-the-middle
+import java.util.*;
+
+public class Solution {
+
+    public int SubsetSum(int[] A, int B) {
+        int n = A.length;
+        int mid = n / 2;
+
+        // Split into two halves
+        int[] left = Arrays.copyOfRange(A, 0, mid);
+        int[] right = Arrays.copyOfRange(A, mid, n);
+
+        // Generate all subset sums of both halves
+        List<Long> leftSums = generateSubsetSums(left);
+        List<Long> rightSums = generateSubsetSums(right);
+
+        // Put right sums into a HashSet for O(1) lookups
+        HashSet<Long> rightSet = new HashSet<>(rightSums);
+
+        // For each left sum, check if complement exists in right sums
+        for (long s : leftSums) {
+            if (rightSet.contains((long)B - s)) {
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+
+    // Generate all subset sums of a given array
+    private List<Long> generateSubsetSums(int[] arr) {
+        List<Long> sums = new ArrayList<>();
+        int n = arr.length;
+        int total = 1 << n;  // 2^n subsets
+
+        for (int mask = 0; mask < total; mask++) {
+            long sum = 0;
+            for (int i = 0; i < n; i++) {
+                if ((mask & (1 << i)) != 0) {
+                    sum += arr[i];
+                }
+            }
+            sums.add(sum);
+        }
+
+        return sums;
+    }
+}
+
