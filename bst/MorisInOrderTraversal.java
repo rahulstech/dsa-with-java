@@ -26,14 +26,17 @@ class TreeThread {
                 cur = cur.right;
             }
             else {
-                rightmost = getRightMost(left);
-                if (rightmost.right == cur) {
+                Node predecessor = cur.left;
+                while (predecessor.right != null && predecessor.right != cur) {
+                    predecessor = predecessor.right;
+                }
+                if (predecessor.right == cur) {
                     ans.add(cur.val); // add the current value
-                    rightmost.right = null; // break the thread
+                    predecessor.right = null; // break the thread
                     cur = cur.right; // move towards the right or current
                 }
                 else {
-                    rightmost.right = cur; // create the thread
+                    predecessor.right = cur; // create the thread
                     cur = left; // move towards left
                 }
             }
@@ -41,12 +44,12 @@ class TreeThread {
         return ans;
     }
 
-    Node getRightMost(Node node) {
-        if (node.right == null || node.right == cur) {
-            return node;
-        }
-        return getRightMost(node.right);
-    }
+    // Node getRightMost(Node node) {
+    //     if (node.right == null || node.right == cur) {
+    //         return node;
+    //     }
+    //     return getRightMost(node.right);
+    // }
 
     public static void main(String... args) {
         TreeThread tt = new TreeThread();
