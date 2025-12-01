@@ -1,0 +1,52 @@
+1. how morris inorder traversal works
+
+inorder: left -> mid -> right
+
+steps:
+
+loop until cur is non null
+  if has no left
+   print current
+   current = current.right
+  if has left
+   - goto the right most node of the left subtree of current i.e. the predecessor node
+     - if right of predecessor is current, break the link and current = current.right
+     - otherwise link it to the current current = current.left
+     
+
+2. least common ancestor (LCA) of p and q:
+
+NOTE: it is confirmed that both p and q exist in the tree
+
+if current is null or current is same as p or q
+  return current
+ 
+left = LCA in left subtree of current
+right = LCA in right subtree of current
+if both left and right exist
+  return current as LCA
+
+return the non-null of left or right as LCA
+
+understand with example
+p = 10 q = 7
+	  1
+        /    \
+       5      7
+      / \    / \
+      6  3  4   9
+          \
+          10
+
+ 
+when cur = 1 the 
+left recursion return 10
+right recursion returns 9
+why? because when the recursion reach the subtree with root 10 then the first if condition meets i.e. cur == p or q. same reason for subtree with root 9. 
+since 10 and 9 are found in two different branch therefore 1 is lca
+
+p = 5 and q = 7
+then, left subtree with root 5 (left tree) returns lca = 5
+right subtree with root 7 (right tree) returns null because it does not contain 5 or 3. 
+now since it is ensured that p and q definitely exists but neither or p or q exists in right tree. so p and q both exists in left tree.
+now for left tree cur = p i.e. cur = 5 matches therfore it is the lca.
