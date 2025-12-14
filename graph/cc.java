@@ -10,12 +10,10 @@ class Solution {
 
     int[][] graph;
     boolean[] visited;
-    Queue<Integer> queue;
 
     void solve(int[][] graph) {
         this.graph = graph;
         visited = new boolean[graph.length];
-        queue = new LinkedList<>();
 
         for (int i=0; i<visited.length; i++) {
             if (!visited[i]) {
@@ -27,6 +25,7 @@ class Solution {
 
     List<Integer> bfs(int v) {
         ArrayList<Integer> path = new ArrayList<>();
+        Queue<Integer> queue = new LinkedList<>();
         queue.offer(v);
         visited[v] = true;
         while(!queue.isEmpty()) {
